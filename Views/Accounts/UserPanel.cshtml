@@ -1,0 +1,18 @@
+﻿@model OnlineAuctions.Models.User
+
+
+@{
+    ViewBag.Title = "UserPanel";
+}
+
+<h2>UserPanel</h2>
+
+<table>
+    <tr>
+        <td width="250px">@Html.ActionLink("Edit profile information","UserInformation","Accounts")</td>
+        <td width="150px">@Html.ActionLink("Buy tokens", "BuyTokens", "Accounts")</td>
+        <td width="300px">@Html.ActionLink("Show previous token orders", "ShowTokenOrders", "Accounts")</td>
+        <td width="200px">@Html.ActionLink("Create auction", "Create", "Auction")</td>
+        <td width="250px">@Html.ActionLink("Show won auctions", "ShowWonAuctions", "Auction")</td>
+    </tr>
+</table>

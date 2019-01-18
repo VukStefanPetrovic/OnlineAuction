@@ -1,0 +1,45 @@
+﻿@model OnlineAuctions.Models.User
+
+@{
+    ViewBag.Title = "UserInformation";
+}
+
+<h2>About user</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <h4>User</h4>
+        <hr />
+        <table class="table table-bordered table-striped dl-horizontal">
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.Firstname)</td>
+                <td>@Html.DisplayFor(model => model.Firstname)</td>
+            </tr>
+
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.Lastname)</td>
+                <td>@Html.DisplayFor(model => model.Lastname)</td>
+            </tr>
+
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.Email)</td>
+                <td>@Html.DisplayFor(model => model.Email)</td>
+            </tr>
+
+
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.Password)</td>
+                <td>********</td>
+            </tr>
+
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.TokensNumber)</td>
+                <td>@Html.DisplayFor(model => model.TokensNumber)</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<p>
+    @Html.ActionLink("Edit", "EditProfile", new { id = Model.IdUser}) |
+    @Html.ActionLink("Back to List", "UserPanel")
+</p>
