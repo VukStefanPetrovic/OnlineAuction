@@ -1,0 +1,161 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Brick.Core</name>
+    </assembly>
+    <members>
+        <member name="T:Brick.Data.IRepository">
+            <summary>
+            Represent an ORM-agnostic repository.
+            </summary>
+        </member>
+        <member name="M:Brick.Data.IRepository.Insert``1(``0)">
+            <summary></summary>
+            <typeparam name="TEntity">The type of the entity.</typeparam>
+            <param name="entity"></param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="entity"/> is null.</exception>
+            <exception cref="T:Brick.Data.DataException"></exception>
+        </member>
+        <member name="M:Brick.Data.IRepository.InsertMany``1(``0[])">
+            <summary></summary>
+            <typeparam name="TEntity">The type of the entity.</typeparam>
+            <param name="entities"></param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="entities"/> is null.</exception>
+            <exception cref="T:Brick.Data.DataException"></exception>
+        </member>
+        <member name="M:Brick.Data.IRepository.Update``1(``0)">
+            <summary></summary>
+            <typeparam name="TEntity">The type of the entity.</typeparam>
+            <param name="entity"></param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="entity"/> is null.</exception>
+            <exception cref="T:Brick.Data.DataException"></exception>
+        </member>
+        <member name="M:Brick.Data.IRepository.UpdateMany``1(``0[])">
+            <summary></summary>
+            <typeparam name="TEntity">The type of the entity.</typeparam>
+            <param name="entities"></param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="entities"/> is null.</exception>
+            <exception cref="T:Brick.Data.DataException"></exception>
+        </member>
+        <member name="M:Brick.Data.IRepository.UpdateMany``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Action{``0})">
+            <summary></summary>
+            <typeparam name="TEntity">The type of the entity.</typeparam>
+            <param name="predicate">A function to test an element for a condition.</param>
+            <param name="updateAction"></param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="predicate"/> or <paramref name="updateAction"/> is null.</exception>
+            <exception cref="T:Brick.Data.DataException"></exception>
+        </member>
+        <member name="M:Brick.Data.IRepository.Delete``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary></summary>
+            <typeparam name="TEntity">The type of the entity.</typeparam>
+            <param name="predicate">A function to test an element for a condition.</param>
+            <exception cref="T:System.ArgumentNullException"><paramref name="predicate"/> is null.</exception>
+            <exception cref="T:Brick.Data.DataException"></exception>
+        </member>
+        <member name="M:Brick.Data.IRepository.SaveChanges">
+            <summary>
+            Save all changes to underlying database.
+            </summary>
+            <exception cref="T:Brick.Data.DataException"></exception>
+        </member>
+        <member name="M:Brick.Data.IRepository.Set``1">
+            <summary>
+            Returns all entities of given type in the underlying database.
+            </summary>
+            <typeparam name="TEntity">The type of the entity.</typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:Brick.Data.IRepository.Single``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            Returns the only element of a sequence that satisfies a specified condition, and throws an exception if more than one such element exists.
+            </summary>
+            <typeparam name="TEntity">The type of the elements.</typeparam>
+            <param name="predicate">A function to test an element for a condition.</param>
+            <returns>The single element of the input sequence that satisfies the condition in <paramref name="predicate"/>.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="predicate"/> is null.</exception>
+            <exception cref="T:System.InvalidOperationException">No element satisfies the condition in <paramref name="predicate"/>; or more than one element satisfies the condition in <paramref name="predicate"/>; or the source sequence is empty.</exception>
+        </member>
+        <member name="M:Brick.Data.IRepository.First``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            Returns the first element of a sequence that satisfies a specified condition.
+            </summary>
+            <typeparam name="TEntity">The type of the elements.</typeparam>
+            <param name="predicate">A function to test each element for a condition.</param>
+            <returns>The first element in source that passes the test in <paramref name="predicate"/>.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="predicate"/> is null.</exception>
+            <exception cref="T:System.InvalidOperationException">No element satisfies the condition in <paramref name="predicate"/>; or the source sequence is empty.</exception>
+        </member>
+        <member name="M:Brick.Data.IRepository.Where``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            Filters a sequence of values based on a predicate.
+            </summary>
+            <typeparam name="TEntity">The type of the elements.</typeparam>
+            <param name="predicate">A function to test each element for a condition.</param>
+            <returns>An <see cref="T:System.Collections.Generic.IEnumerable`1"/> that contains elements from the input sequence that satisfy the condition specified by <paramref name="predicate"/>.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="predicate"/> is null.</exception>
+        </member>
+        <member name="M:Brick.Data.IRepository.Any``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            Determines whether any element of a sequence satisfies a condition.
+            </summary>
+            <typeparam name="TEntity">The type of the elements.</typeparam>
+            <param name="predicate">A function to test each element for a condition.</param>
+            <returns><c>true</c> if any elements in the source sequence pass the test in the specified predicate; otherwise, <c>false</c>.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="predicate"/> is null.</exception>
+        </member>
+        <member name="M:Brick.Data.IRepository.Count``1">
+            <summary>
+            Returns the number of elements in a sequence.
+            </summary>
+            <typeparam name="TEntity">The type of the elements.</typeparam>
+            <returns>The number of elements in the input sequence.</returns>
+            <exception cref="T:System.OverflowException">The number of elements in source is larger than <see cref="F:System.Int64.MaxValue"/>.</exception>
+        </member>
+        <member name="M:Brick.Data.IRepository.Count``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            Returns the number of elements in the specified sequence that satisfies a condition.
+            </summary>
+            <typeparam name="TEntity">The type of the elements.</typeparam>
+            <param name="predicate">A function to test each element for a condition.</param>
+            <returns>The number of elements in the sequence that satisfies the condition in the predicate function.</returns>
+            <exception cref="T:System.ArgumentNullException"><paramref name="predicate"/> is null.</exception>
+            <exception cref="T:System.OverflowException">The number of elements in source is larger than <see cref="F:System.Int64.MaxValue"/>.</exception>
+        </member>
+        <member name="T:Brick.PagedList.IPagedList`1">
+            <summary>
+            Represents a generic subset of a collection of objects that contains metadata about the superset collection of objects this subset was created from.
+            </summary>
+            <typeparam name="T">The type of object the collection should contain.</typeparam>
+        </member>
+        <member name="T:Brick.PagedList.IPagedListMetadata">
+            <summary>
+            Represents metadata of a subset that was created from a superset.
+            </summary>
+        </member>
+        <member name="P:Brick.PagedList.IPagedListMetadata.PageNumber">
+            <summary>
+            One-based index of this subset within the superset.
+            </summary>
+        </member>
+        <member name="P:Brick.PagedList.IPagedListMetadata.PageSize">
+            <summary>
+            Maximum size any individual subset.
+            </summary>
+        </member>
+        <member name="P:Brick.PagedList.IPagedListMetadata.PageCount">
+            <summary>
+            Total number of subsets within the superset.
+            </summary>
+        </member>
+        <member name="P:Brick.PagedList.IPagedListMetadata.TotalItemCount">
+            <summary>
+            Total number of objects contained within the superset.
+            </summary>
+        </member>
+        <member name="P:Brick.PagedList.IPagedList`1.Subset">
+            <summary>
+            The subset of items contained only within this one page of the superset.
+            </summary>
+        </member>
+    </members>
+</doc>

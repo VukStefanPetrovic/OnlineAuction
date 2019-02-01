@@ -1,0 +1,15 @@
+﻿@model OnlineAuctions.Models.User
+
+
+@{
+    ViewBag.Title = "AdminPanel";
+}
+
+<h2>UserPanel</h2>
+
+<table>
+    <tr>
+        <td width="500px">@Html.ActionLink("Edit auctions parameters", "EditParameters", "Accounts")</td>
+        <td width="500px">@Html.ActionLink("Open auctions", "OpenAuction", "Auction")</td>
+    </tr>
+</table>

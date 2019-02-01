@@ -1,0 +1,172 @@
+﻿@model OnlineAuctions.Models.Auction
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="container">
+    <div class="row">
+       
+            <div class="col-md-3">
+                <div class="card" style="width:500px;height:500px">
+                    <div class="card-header">
+                        <div class="text-center">@Model.Name</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="thumbnail text-center">
+                            @{
+                                string imgurl = "";
+                                if (Model.Img != null)
+                                {
+                                    string imreBase64Data = Convert.ToBase64String(Model.Img);
+                                    imgurl = string.Format("data:image/png;base64,{0}", imreBase64Data);
+                                }
+                            }
+
+                            <img src="@imgurl" style="width:150px;height:150px" />
+                        </div>
+
+                        <div class="text-lg-center" id="timer @Model.Id" style="color:red"></div>
+                        <div class="text-md-center" id="currprice @Model.Id" style="color:darkseagreen">@Model.currentPrice</div>
+
+                        @if (Model.Lastbidder != null)
+                        {
+                            <div class="text-sm-center" id="bidder @Model.Id" style="color:lightgray">@Model.Lastbidder</div>
+                        }
+                        else
+                        {
+                            <div class="text-sm-center" id="bidder @Model.Id" style="color:lightgray">No bids yet</div>
+                        }
+
+                    </div>
+
+                    <div class="card-footer text-center">
+                        @using (Html.BeginForm("Bid", "Auction", FormMethod.Post, new { id = "form " + Model.Id }))
+                        {
+                            @Html.AntiForgeryToken()
+                            if (Model.State == "OPENED" && Session["User"] != null)
+                            {
+                                <input type="hidden" name="AuctionId" value="@Model.Id" id="auctionId @Model.Id" />
+                                <div class="texd-md-center"><input type="number" name="tokensnum" id="numinput @Model.Id" class="form-control" /></div>
+                                <button class="btn btn-primary" type="submit" id="bidButton @Model.Id" onclick="">Bid Now</button>
+                            }
+                        }
+                    </div>
+
+                </div>
+            </div>
+                                
+    </div>
+
+
+  
+    @Html.Partial("BidList", Model.Bids)
+       
+   
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+@section Scripts {
+
+    @*@ @Scripts.Render("~/bundles/jqueryval")*@
+
+    <script src="~/Scripts/jquery.signalR-2.4.0.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+
+
+    <script>
+
+
+
+
+        $.connection.hub.start();
+
+        $.connection.myHub.client.BidRefresh = function (idAuction, tokens, bidder) {
+            document.getElementById("bidder " + idAuction).innerHTML = bidder;
+            document.getElementById("currprice " + idAuction).innerHTML = tokens;
+           
+           
+            
+        }
+
+
+        function tick(time, id) {
+            var x = setInterval(function () {
+                var localTime = new Date();
+                var now = new Date(localTime.getUTCFullYear(), localTime.getUTCMonth(), localTime.getUTCDate(),
+                    localTime.getUTCHours(), localTime.getUTCMinutes(), localTime.getUTCSeconds(), localTime.getUTCMilliseconds());
+                var distance = time.getTime() - now.getTime();
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                document.getElementById("timer " + id).innerHTML = days + "d " + hours + "h "
+                    + minutes + "m " + seconds + "s ";
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.getElementById("timer " + id).innerHTML = "COMPLETED";
+
+                     @if(Session["User"]!=null)
+                     {
+                         <text>
+                            document.getElementById("bidButton " + id).className += " disabled";
+                            document.getElementById("bidButton " + id).disabled = true;
+                            document.getElementById("numinput "+id).style.display="none";
+                         </text>
+
+                    }
+
+                     $.connection.myHub.server.closeAuction(id);
+
+                    }
+            }, 1000);
+        }
+
+
+
+    
+            @if(Model.State=="OPENED")
+            {
+                <text>
+
+
+                var year = @(((DateTime)Model.closingTime).Year);
+                var month =@(((DateTime)Model.closingTime).Month);
+                var day = @(((DateTime)Model.closingTime).Day);
+                var hour = @(((DateTime)Model.closingTime).Hour);
+                var minute = @(((DateTime)Model.closingTime).Minute);
+                var second = @(((DateTime)Model.closingTime).Second);
+                var time = new Date(year,month-1,day,hour,minute,second,0);
+
+
+                tick(time,@Model.Id);
+
+
+
+
+                </text>
+            }
+
+
+        
+
+
+
+
+
+    </script>
+}
+

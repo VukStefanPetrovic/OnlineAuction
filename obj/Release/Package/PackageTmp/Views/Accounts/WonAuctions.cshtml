@@ -1,0 +1,87 @@
+﻿@model IEnumerable<OnlineAuctions.Models.Auction>
+
+@{
+    ViewBag.Title = "WonAuctions";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>WonAuctions</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Duration)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Img)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.openingTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.closingTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.currentPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.startingPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.createdOn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.State)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Duration)
+        </td>
+        <td>
+            <div class="thumbnail">
+                @{
+                    string imgurl = "";
+                    if (item.Img != null)
+                    {
+                        string imreBase64Data = Convert.ToBase64String(item.Img);
+                        imgurl = string.Format("data:image/png;base64,{0}", imreBase64Data);
+                    }
+                }
+
+                <img src="@imgurl" style="width:150px;height:150px" />
+            </div>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.openingTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.closingTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.currentPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.startingPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.createdOn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.State)
+        </td>
+       
+    </tr>
+}
+
+</table>

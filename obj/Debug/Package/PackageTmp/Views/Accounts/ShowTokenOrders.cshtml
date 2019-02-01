@@ -1,0 +1,60 @@
+﻿@using PagedList.Mvc
+@model OnlineAuctions.Models.OrderViewModel
+@{
+    ViewBag.Title = "ShowTokenOrders";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+<h2>Previous Token Orders</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Firstname")
+        </th>
+        <th>
+            @Html.DisplayName("TokensNumber")
+        </th>
+        <th>
+            @Html.DisplayName("Price")
+        </th>
+        <th>
+            @Html.DisplayName("State")
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.orders) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.Firstname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TokensNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.State)
+        </td>
+    </tr>
+}
+
+</table>
+
+@if (Model.orders.Count==0)
+{
+    <h2> There are no orders right now! </h2>
+}
+Page @(Model.orders.PageCount < Model.orders.PageNumber ? 0 : Model.orders.PageNumber) of @Model.orders.PageCount
+
+@Html.PagedListPager(Model.orders, page => Url.Action("ShowOrders", "Accounts", new OnlineAuctions.Models.OrderViewModel
+{
+    page = page
+}))
+
+

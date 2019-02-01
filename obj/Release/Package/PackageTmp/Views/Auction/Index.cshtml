@@ -1,0 +1,234 @@
+﻿@model OnlineAuctions.Models.AuctionViewModelForm
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br /><br /><br />
+
+
+
+
+
+
+
+@using (Html.BeginForm("Search", "Auction"))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Auctions</h4>
+        <hr />
+        
+        
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.minprice, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.minprice, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.highprice, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.highprice, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.status, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+               @*@ @Html.EditorFor(model => model.status, new { htmlAttributes = new { @class = "form-control" } })*@
+                @Html.DropDownListFor(model => model.status, new SelectList(new string[] {"","READY", "OPENED", "COMPLETED" }))
+                
+ 
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Search" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+
+<div class="container">
+    <div class="row">
+        @foreach(var item in Model.Auctions)
+        {
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="text-center">@Html.ActionLink(item.Name, "Details", new { det=item.Id })</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="thumbnail text-center">
+                            @{
+                                string imgurl = "";
+                                if (item.Img != null)
+                                {
+                                    string imreBase64Data = Convert.ToBase64String(item.Img);
+                                    imgurl = string.Format("data:image/png;base64,{0}", imreBase64Data);
+                                }
+                            }
+
+                            <img src="@imgurl" style="width:150px;height:150px" />
+                        </div>
+                       
+                        <div class="text-lg-center" id="timer @item.Id" style="color:red"></div>
+                        <div class="text-md-center" id="currprice @item.Id" style="color:darkseagreen">@item.currentPrice</div>
+
+                        @if (item.Lastbidder != null)
+                        {
+                            <div class="text-sm-center" id="bidder @item.Id" style="color:lightgray">@item.Lastbidder</div>
+                        }
+                        else
+                        {
+                            <div class="text-sm-center" id="bidder @item.Id" style="color:lightgray">No bids yet</div>
+                        }
+
+
+                    </div>
+                   
+                    <div class="card-footer text-center">
+                        @using (Html.BeginForm("Bid", "Auction", FormMethod.Post, new { id = "form " + item.Id }))
+                        {
+                            @Html.AntiForgeryToken()
+                            if (item.State == "OPENED" && Session["User"] != null)
+                            {
+                                <input type="hidden" name="AuctionId" value="@item.Id" id="auctionId @item.Id" />
+                                <div class="texd-md-center"><input type="number" name="tokensnum"  id="numinput @item.Id" class="form-control" /></div>
+                                <button class="btn btn-primary" type="submit" id="bidButton @item.Id" onclick="">Bid Now</button>
+                            }
+                        }
+                    </div>
+                    
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@if (Model.Auctions.PageCount == 0)
+{
+    <h2> There is no auctions right now! </h2>
+}
+Page @(Model.Auctions.PageCount < Model.Auctions.PageNumber ? 0 : Model.Auctions.PageNumber) of @Model.Auctions.PageCount
+
+@Html.PagedListPager(Model.Auctions, page => Url.Action("Search","Auction", new OnlineAuctions.Models.AuctionViewModelForm
+{
+    Name = Model.Name,
+    minprice = Model.minprice,
+    highprice = Model.highprice,
+    status = Model.status,
+    page = page
+}))
+
+
+
+
+@section Scripts {
+
+   @*@ @Scripts.Render("~/bundles/jqueryval")*@
+    
+    <script src="~/Scripts/jquery.signalR-2.4.0.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+   
+    
+    <script>
+   
+
+
+
+        $.connection.hub.start();
+
+        $.connection.myHub.client.BidRefresh = function (idAuction, tokens, bidder) {
+            document.getElementById("bidder " + idAuction).innerHTML = bidder;
+            document.getElementById("currprice " + idAuction).innerHTML = tokens;
+        }
+
+
+        function tick(time, id) {
+            var x = setInterval(function () {
+                var localTime = new Date();
+                var now = new Date(localTime.getUTCFullYear(), localTime.getUTCMonth(), localTime.getUTCDate(),
+                    localTime.getUTCHours(), localTime.getUTCMinutes(), localTime.getUTCSeconds(), localTime.getUTCMilliseconds());
+                var distance = time.getTime() - now.getTime();
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                document.getElementById("timer " + id).innerHTML = days + "d " + hours + "h "
+                    + minutes + "m " + seconds + "s ";
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.getElementById("timer " + id).innerHTML = "COMPLETED";
+                    
+                     @if(Session["User"]!=null)
+                     { 
+                         <text>
+                            document.getElementById("bidButton " + id).className += " disabled";
+                            document.getElementById("bidButton " + id).disabled = true;
+                            document.getElementById("numinput "+id).style.display="none";
+                         </text>
+                        
+                    }
+                     
+                     $.connection.myHub.server.closeAuction(id);
+
+                    }
+            }, 1000);
+        }
+
+
+
+    @foreach(var item in Model.Auctions)
+        {
+            if(item.State=="OPENED")
+            {
+                <text>
+
+                    var year = @(((DateTime)item.closingTime).Year);
+                var month =@(((DateTime)item.closingTime).Month);
+                var day = @(((DateTime)item.closingTime).Day);
+                var hour = @(((DateTime)item.closingTime).Hour);
+                var minute = @(((DateTime)item.closingTime).Minute);
+                var second = @(((DateTime)item.closingTime).Second);
+                var time = new Date(year,month-1,day,hour,minute,second,0);
+                
+
+                tick(time,@item.Id);
+
+
+
+
+                </text>
+            }
+
+
+        }
+
+
+
+
+
+    </script>
+}
+
+
+
+
+

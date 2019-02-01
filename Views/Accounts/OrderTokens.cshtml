@@ -1,0 +1,70 @@
+﻿@model OnlineAuctions.Models.SystemParameter
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Buy platnium pack!</h3>
+        </div>
+        
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            Number of tokens: @ViewBag.Platnium
+        </div>
+        <div class="col-sm-6">
+            Tokens price: @ViewBag.PlatniumPrice Currency: @ViewBag.Currency
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <a>@Html.ActionLink("Order", "OrderToken", new { num = 1 },htmlAttributes:new {@class="btn btn-md btn-success"})</a>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Buy gold pack!</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            Number of tokens:@ViewBag.Gold
+        </div>
+        <div class="col-sm-6">
+            Tokens price: @ViewBag.GoldPrice Currency: @ViewBag.Currency
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <a>@Html.ActionLink("Order", "OrderToken", new { num = 2 }, htmlAttributes: new { @class = "btn btn-md btn-success" })</a>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Buy silver pack!</h2>
+        </div>
+        
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            Number of tokens: @ViewBag.Silver
+        </div>
+        <div class="col-sm-6">
+            Tokens price: @ViewBag.SilverPrice  Currency: @ViewBag.Currency
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <a>@Html.ActionLink("Order", "OrderToken", new { num = 3 }, htmlAttributes: new { @class = "btn btn-md btn-success" })</a>
+        </div>
+    </div>
+</div>
+
+
