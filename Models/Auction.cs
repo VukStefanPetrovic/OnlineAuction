@@ -32,7 +32,7 @@ namespace OnlineAuctions.Models
 
         public decimal? startingPrice { get; set; }
 
-        
+
         public DateTime? createdOn { get; set; }
 
         [StringLength(10)]
@@ -40,7 +40,9 @@ namespace OnlineAuctions.Models
 
         public int Id { get; set; }
 
-       
+        public string Lastbidder { get; set; }
+
+        public int? LastbidderId { get; set;}
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Bid> Bids { get; set; }

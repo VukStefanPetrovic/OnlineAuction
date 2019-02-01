@@ -1,0 +1,42 @@
+﻿@model IEnumerable<OnlineAuctions.Models.Bid>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.User.Firstname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.User.Lastname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TokensNumber)
+        </th>
+
+        
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.Firstname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.Lastname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TokensNumber)
+        </td>
+        
+    </tr>
+}
+
+
+
+
+</table>
+
+
+
+    
+

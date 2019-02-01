@@ -29,5 +29,13 @@ namespace OnlineAuctions.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<OnlineAuctions.Models.SystemParameter> SystemParameters { get; set; }
+
+        public System.Data.Entity.DbSet<OnlineAuctions.Models.Auction> Auctions { get; set; }
+
+        public System.Data.Entity.DbSet<OnlineAuctions.Models.Bid> Bids { get; set; }
+
+        public System.Data.Entity.DbSet<OnlineAuctions.Models.TokenOrder> TokenOrders { get; set; }
     }
 }

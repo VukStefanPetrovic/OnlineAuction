@@ -19,6 +19,8 @@ namespace OnlineAuctions.Models
 
         public int IdUser { get; set; }
 
+        public DateTime? OrderTime { get; set; }
+
         public virtual User User { get; set; }
     }
 }
