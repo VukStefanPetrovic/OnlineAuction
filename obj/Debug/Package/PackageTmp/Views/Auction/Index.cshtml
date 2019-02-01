@@ -90,6 +90,7 @@
 
                             <img src="@imgurl" style="width:150px;height:150px" />
                         </div>
+
                         @if (item.State.Equals("COMPLETED"))
                         {
                             <div class="text-lg-center" style="color:red">COMPLETED</div>
@@ -98,6 +99,7 @@
                         {
                             <div class="text-lg-center" id="timer @item.Id" style="color:red"></div>
                         }
+
                         <div class="text-md-center" id="currprice @item.Id" style="color:darkseagreen">@item.currentPrice</div>
 
                         @if (item.Lastbidder != null)
@@ -108,7 +110,7 @@
                         {
                             <div class="text-sm-center" id="bidder @item.Id" style="color:lightgray">No bids yet</div>
                         }
-                        
+
 
 
                     </div>
